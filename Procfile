@@ -1,1 +1,1 @@
-web: chicken-csi -s main.scm
+web: vendor/bin/chicken-csi -s main.scm
