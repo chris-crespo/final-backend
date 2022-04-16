@@ -1,3 +1,4 @@
 awful
-awful-postgress
+awful-postgresql
+postgresql
 medea
