@@ -1,1 +1,1 @@
-web: awful main.scm
+web: csi -s main.scm
