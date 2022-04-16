@@ -1,0 +1,1 @@
+web: awful main.scm
