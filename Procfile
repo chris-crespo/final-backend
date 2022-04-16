@@ -1,1 +1,1 @@
-web: vendor/bin/chicken-csi -s main.scm
+web: vendor/bin/awful -s main.scm
