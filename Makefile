@@ -1,2 +1,2 @@
 heroku: 
-	awful main.scm
+	echo Done	
