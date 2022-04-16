@@ -1,1 +1,1 @@
-web: csi -s main.scm
+web: chicken-csi -s main.scm
