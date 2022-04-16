@@ -1,1 +1,1 @@
-web: which awful
+web: chicken-install awful && awful main.scm
