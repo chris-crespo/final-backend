@@ -1,1 +1,1 @@
-web: vendor/bin/awful -s main.scm
+web: which awful
