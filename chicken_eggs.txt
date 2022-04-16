@@ -1,4 +1,0 @@
-awful
-awful-postgresql
-postgresql
-medea
