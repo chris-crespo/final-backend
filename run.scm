@@ -6,17 +6,17 @@
          spiffy spiffy-request-vars
          medea intarweb))
   (chicken-5
-    (import (chicken base) (chicken io) (chicken format))
+    (import (chicken base) 
+            (chicken io) 
+            (chicken format) 
+            (chicken process-context))
     (import awful awful-postgresql 
             postgresql sql-null 
             spiffy spiffy-request-vars 
             medea intarweb)))
 
 (enable-db)
-(db-credentials '((dbname   . "dbas1vp8gkllu9")
-                  (user     . "zuqecytnilorph")
-                  (password . "6f81f26818ecf95518cec24cfc4fda9e1d3a1b81e86cafaeb08836128c624196")
-                  (host     . "ec2-34-246-227-219.eu-west-1.compute.amazonaws.com")))
+(db-credentials (get-environment-variable "DATABASE_URL"))
 
 (define connection (connect (db-credentials)))
 (on-exit (lambda () (disconnect connection)))
