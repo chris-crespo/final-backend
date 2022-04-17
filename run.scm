@@ -1,9 +1,16 @@
-(import (chicken base) (chicken io) (chicken format))
-(import awful awful-postgresql 
-        postgresql sql-null 
-        spiffy spiffy-request-vars 
-        medea 
-        intarweb)
+(cond-expand 
+  (chicken-4
+    (import chicken)
+    (use awful awful-postgresql
+         postgresql sql-null
+         spiffy spiffy-request-vars
+         medea intarweb))
+  (chicken-5
+    (import (chicken base) (chicken io) (chicken format))
+    (import awful awful-postgresql 
+            postgresql sql-null 
+            spiffy spiffy-request-vars 
+            medea intarweb)))
 
 (enable-db)
 (db-credentials '((dbname   . "dbas1vp8gkllu9")
