@@ -1,6 +1,6 @@
 (cond-expand 
   (chicken-4
-    (import chicken)
+    (import (except chicken get))
     (use awful awful-postgresql
          postgresql sql-null
          medea)
