@@ -8,7 +8,7 @@
       (use awful spiffy spiffy-request-vars
            medea intarweb))
     (chicken-5
-      (import scheme (chicken io) (chicken syntax))
+      (import scheme (chicken io))
       (import awful spiffy spiffy-request-vars 
               medea intarweb)))
 

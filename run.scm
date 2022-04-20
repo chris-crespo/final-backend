@@ -7,7 +7,6 @@
     (use methods))
   (chicken-5
     (import (chicken base) 
-            (chicken io) 
             (chicken format) 
             (chicken process-context))
     (import awful awful-postgresql 
