@@ -11,7 +11,8 @@
             (chicken process-context))
     (import awful awful-postgresql 
             postgresql sql-null 
-            medea)))
+            medea)
+    (import methods)))
 
 (enable-db)
 (db-credentials (get-environment-variable "DATABASE_URL"))
@@ -60,9 +61,11 @@
 (define (exists? username email)
   (not (available? username email)))
 
+(print get)
+
 (get "api/available" (username email)
   `((username . ,(username-available? username))
-    (emai . ,(email-available? email))))
+    (email . ,(email-available? email))))
 
 (get "api/verify" (username email password)
   `((verified . ,(exists? username email))))
