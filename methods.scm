@@ -30,7 +30,7 @@
     (define-page route
       (lambda ()
         (awful-response-headers '((content-type "application/json")
-                                  (access-control-allow-origin "*"))
+                                  (access-control-allow-origin "*")))
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
