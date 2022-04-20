@@ -29,7 +29,8 @@
   (define (define-json route method thunk)
     (define-page route
       (lambda ()
-        (awful-response-headers '((content-type "application/json")))
+        (awful-response-headers '((content-type "application/json")
+                                  (access-control-allow-origin "*"))
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
