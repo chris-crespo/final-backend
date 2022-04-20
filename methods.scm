@@ -5,7 +5,7 @@
   (import scheme)
   (cond-expand 
     (chicken-4
-      (import r4rs chicken)
+      (import r4rs chicken extras)
       (use awful spiffy spiffy-request-vars
            medea intarweb))
     (chicken-5
