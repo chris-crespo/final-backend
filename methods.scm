@@ -6,7 +6,6 @@
   (cond-expand 
     (chicken-4
       (import chicken extras)
-      (except extras get)
       (use awful spiffy spiffy-request-vars
            medea intarweb))
     (chicken-5
