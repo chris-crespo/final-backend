@@ -4,7 +4,7 @@
     (use awful awful-postgresql
          postgresql sql-null
          medea)
-    (use methods))
+    (import methods))
   (chicken-5
     (import (chicken base) 
             (chicken format) 
