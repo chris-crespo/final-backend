@@ -4,15 +4,14 @@
     (use awful awful-postgresql
          postgresql sql-null
          medea)
-    (import methods))
+    (use methods))
   (chicken-5
     (import (chicken base) 
             (chicken format) 
             (chicken process-context))
     (import awful awful-postgresql 
             postgresql sql-null 
-            medea)
-    (import methods)))
+            medea)))
 
 (enable-db)
 (db-credentials (get-environment-variable "DATABASE_URL"))

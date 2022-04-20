@@ -2,13 +2,14 @@
   (json-request-vars request-var json-response
    get post)
 
+  (import scheme)
   (cond-expand 
     (chicken-4
-      (import scheme chicken)
+      (import chicken)
       (use awful spiffy spiffy-request-vars
            medea intarweb))
     (chicken-5
-      (import scheme (chicken io))
+      (import (chicken io))
       (import awful spiffy spiffy-request-vars 
               medea intarweb)))
 
