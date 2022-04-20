@@ -1,5 +1,5 @@
 (module methods 
-  (json-request-vars request-var json-response
+  (json-request-vars request-var define-json
    get post)
 
   (import scheme)
@@ -26,6 +26,14 @@
   (define (json-response obj)
     `(literal ,(json->string obj)))
 
+  (define (define-json route method thunk)
+    (define-page route
+      (lambda ()
+        (awful-response-headers '((content-type "application/json")))
+        (json-response (thunk)))
+      no-template: #t
+      method: `(,method)))
+
   (define-syntax define-syntax-rule
     (syntax-rules ()
       ((_ (name . rest-of-pattern) expr . rest)
@@ -33,37 +41,24 @@
          (syntax-rules ()
            ((name . rest-of-pattern) expr . rest))))))
       
-  (define-syntax debug-macro
-    (syntax-rules ()
-      ((_ macro)
-       (print (strip-syntax (expand (quote macro)))))))
+  (define-syntax-rule (debug-macro macro)
+    (print (strip-syntax (expand (quote macro)))))
 
-  (define-syntax with-json-request-vars
-    (syntax-rules ()
-      ((_ (var ...) expr . rest) 
-       (let ((request-vars (json-request-vars)))
-         (let ((var (request-var (quote var) request-vars)) ...)
-           (begin expr . rest))))))
+  (define-syntax-rule (with-json-request-vars (var ...) expr . rest) 
+    (let ((request-vars (json-request-vars)))
+      (let ((var (request-var (quote var) request-vars)) ...)
+        (begin expr . rest))))
 
-  (define-syntax define-route
-    (syntax-rules ()
-      ((_ route method (var . vars) expr . rest)
-       (define-page route
-         (lambda ()
-           (awful-response-headers '((content-type "application/json")))
-           (with-json-request-vars (var . vars)
-             (json-response (begin expr . rest))))
-         no-template: #t
-         method: `(,method)))))
+  (define-syntax-rule (get route (var . vars) expr . rest)
+    (define-json route 'GET 
+      (lambda ()
+        (with-request-vars (var . vars)
+          (begin expr . rest)))))
 
-  (define-syntax get
-    (syntax-rules ()
-      ((_ route (var . vars) expr . rest)
-       (define-route route 'GET (var . vars) expr . rest))))
-
-  (define-syntax post
-    (syntax-rules ()
-      ((_ route (var . vars) expr . rest)
-       (define-route route 'POST (var . vars) expr . rest))))
+  (define-syntax-rule (post route (var . vars) expr . rest)
+    (define-json route 'POST
+      (lambda ()
+        (with-json-request-vars (var . vars)
+          (begin expr . rest)))))
 
 )

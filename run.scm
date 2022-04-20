@@ -61,8 +61,6 @@
 (define (exists? username email)
   (not (available? username email)))
 
-(print get)
-
 (get "api/available" (username email)
   `((username . ,(username-available? username))
     (email . ,(email-available? email))))
