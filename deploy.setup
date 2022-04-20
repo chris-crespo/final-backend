@@ -1,1 +1,1 @@
-(compile -J methods)
+(compile -J methods.scm)
