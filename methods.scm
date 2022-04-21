@@ -20,7 +20,7 @@
       (read-json content)))
 
   (define (request-var var vars)
-    (cond ((assoc (quote var) vars) => cdr)
+    (cond ((assoc var vars) => cdr)
           (else #f)))
 
   (define (json-response obj)
