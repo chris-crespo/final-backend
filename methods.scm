@@ -33,7 +33,7 @@
                                   (content-type "application/json")
                                   (access-control-allow-origin "*")
                                   (access-control-allow-methods "*")
-                                  (allow-headers "content-type")))
+                                  (access-control-allow-headers "content-type")))
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
