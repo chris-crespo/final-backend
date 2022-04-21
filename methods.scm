@@ -32,7 +32,7 @@
       (access-control-allow-origin "*")
       (access-control-allow-methods "*")
       (access-control-allow-headers 
-        "origin, x-requested-with, content-type, accept")))
+        "x-requested-with, content-type, accept")))
 
   (define (define-json route method thunk)
     (define-page route
