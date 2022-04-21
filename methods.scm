@@ -68,7 +68,6 @@
   (define-syntax-rule (post route (var . vars) expr . rest)
     (define-json route 'OPTIONS (lambda () #t))
     (define-json route 'POST
-      (print 'called)
       (lambda ()
         (with-json-request-vars (var . vars)
           (begin expr . rest)))))
