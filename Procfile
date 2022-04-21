@@ -1,1 +1,1 @@
-web: awful --port=$PORT run.scm
+web: awful --port=$PORT run.scm --development-mode
