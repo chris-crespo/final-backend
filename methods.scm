@@ -9,7 +9,7 @@
       (use awful spiffy spiffy-request-vars
            medea intarweb))
     (chicken-5
-      (import (chicken io))
+      (import (chicken base) (chicken io))
       (import awful spiffy spiffy-request-vars 
               medea intarweb)))
 
@@ -26,14 +26,18 @@
   (define (json-response obj)
     `(literal ,(json->string obj)))
 
+  (define headers
+    `((allow "*")
+      (content-type "application/json")
+      (access-control-allow-origin "*")
+      (access-control-allow-methods "*")
+      (access-control-allow-headers 
+        "origin, x-requested-with, content-type, accept")))
+
   (define (define-json route method thunk)
     (define-page route
       (lambda ()
-        (awful-response-headers '((allow "*")
-                                  (content-type "application/json")
-                                  (access-control-allow-origin "*")
-                                  (access-control-allow-methods "*")
-                                  (access-control-allow-headers "content-type")))
+        (awful-response-headers headers) 
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
@@ -64,6 +68,7 @@
   (define-syntax-rule (post route (var . vars) expr . rest)
     (define-json route 'OPTIONS (lambda () #t))
     (define-json route 'POST
+      (print 'called)
       (lambda ()
         (with-json-request-vars (var . vars)
           (begin expr . rest)))))
