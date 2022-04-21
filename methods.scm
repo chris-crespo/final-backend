@@ -27,8 +27,7 @@
     `(literal ,(json->string obj)))
 
   (define json-response-headers
-    `((allow "*")
-      (content-type "application/json")
+    `((content-type "application/json")
       (access-control-allow-origin "*")
       (access-control-allow-methods "*")
       (access-control-allow-headers "*")))
