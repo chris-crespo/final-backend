@@ -46,8 +46,8 @@
     (query connection 'get_user username email)))
 
 (define post-user
-  (lambda (username email)
-    (query connection 'post_user username email)))
+  (lambda user-data
+    (apply query connection 'post_user user-data)))
 
 (define (available? colname)
   (let ((statement-name 
@@ -69,4 +69,5 @@
   `((verified . ,(exists? username email))))
 
 (post "api/register" (username email password first-name last-name phone-number)
-  (post-user username email password first-name last-name phone-number))
+  (post-user username email password first-name last-name phone-number)
+  `((success . #t)))
