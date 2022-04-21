@@ -23,7 +23,7 @@
 (query connection "prepare get_user as select email from app_user 
                    where username = $1 or email = $2")
 (query connection "prepare post_user as 
-                   insert into app_user (username, email) values ($1, $2)")
+                   insert into app_user values ($1, $2, $3, $4, $5, $6)")
 (query connection "prepare username_available as 
                    select username from app_user where username = $1")
 (query connection "prepare email_available as 
@@ -68,5 +68,5 @@
 (get "api/verify" (username email password)
   `((verified . ,(exists? username email))))
 
-(post "api/register" (username email password first-name)
-  (post-user username email))
+(post "api/register" (username email password first-name last-name phone-number)
+  (post-user username email password first-name last-name phone-number))
