@@ -32,7 +32,8 @@
         (awful-response-headers '((allow "*")
                                   (content-type "application/json")
                                   (access-control-allow-origin "*")
-                                  (access-control-allow-methods "*")))
+                                  (access-control-allow-methods "*")
+                                  (allow-headers "content-type")))
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
