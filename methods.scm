@@ -26,7 +26,7 @@
   (define (json-response obj)
     `(literal ,(json->string obj)))
 
-  (define headers
+  (define response-headers
     `((allow "*")
       (content-type "application/json")
       (access-control-allow-origin "*")
@@ -37,7 +37,7 @@
   (define (define-json route method thunk)
     (define-page route
       (lambda ()
-        (awful-response-headers headers) 
+        (awful-response-headers response-headers) 
         (json-response (thunk)))
       no-template: #t
       method: `(,method)))
