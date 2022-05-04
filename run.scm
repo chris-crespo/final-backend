@@ -43,7 +43,7 @@
 
 (define get-user
   (lambda (username email)
-    (row-alist (query connection 'get_user username email))))
+    (query connection 'get_user username email)))
 
 (define (password-matches? user password)
   ;; User must be an alist obtained by calling row-alist
@@ -74,9 +74,10 @@
   `((verified . ,(exists? username email))))
 
 (get "api/auth" (username email password)
-  (let ((user (get-user username email)))
-  `((user . (not (sql-null? user)))
-    (password . (password-matches? user password)))))
+  (let* ((user (get-user username email))
+         (user-exists? (not (sql-null? user))))
+  `((user . ,user-exists?)
+    (password . ,(and user-exists? (password-matches? (row-alist user) password))))))
 
 (post "api/register" (username email password first-name last-name phone-number)
   ;; TODO: Success should depend on user being stored successfully
