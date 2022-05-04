@@ -47,6 +47,7 @@
 
 (define (password-matches? user password)
   ;; User must be an alist obtained by calling row-alist
+  (print user)
   (string=? (cdr (assoc 'password user )) password))
 
 (define post-user
