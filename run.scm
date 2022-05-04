@@ -43,10 +43,15 @@
 
 (define get-user
   (lambda (username email)
-    (query connection 'get_user username email)))
+    (row-alist (query connection 'get_user username email))))
+
+(define (password-matches? user password)
+  ;; User must be an alist obtained by calling row-alist
+  (string=? (cdr (assoc 'password user )) password))
 
 (define post-user
   (lambda user-data
+    ;; TODO: Hash password before storing in db
     (apply query connection 'post_user user-data)))
 
 (define (available? colname)
@@ -68,6 +73,12 @@
 (get "api/verify" (username email password)
   `((verified . ,(exists? username email))))
 
+(get "api/auth" (username email password)
+  (let ((user (get-user username email)))
+  `((user . (not (sql-null? user)))
+    (password . (password-matches? user password)))))
+
 (post "api/register" (username email password first-name last-name phone-number)
+  ;; TODO: Success should depend on user being stored successfully
   (post-user username email password first-name last-name phone-number)
   `((success . #t)))
