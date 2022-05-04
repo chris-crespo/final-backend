@@ -75,7 +75,7 @@
 
 (get "api/auth" (username email password)
   (let* ((user (get-user username email))
-         (user-exists? (not (sql-null? user))))
+         (user-exists? (> (row-count user) 0)))
   `((user . ,user-exists?)
     (password . ,(and user-exists? (password-matches? (row-alist user) password))))))
 
