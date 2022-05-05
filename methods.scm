@@ -6,12 +6,10 @@
   (cond-expand 
     (chicken-4
       (import (except chicken get) extras)
-      (use awful spiffy spiffy-request-vars
-           medea intarweb))
+      (use awful spiffy medea intarweb))
     (chicken-5
       (import (chicken base) (chicken io))
-      (import awful spiffy spiffy-request-vars 
-              medea intarweb)))
+      (import awful spiffy medea intarweb)))
 
   (define (json-request-vars)
     (let* ((header (request-headers (current-request)))
@@ -60,7 +58,7 @@
     (begin
       (define-json route 'GET 
         (lambda ()
-          (with-request-vars (var . vars)
+          (with-request-variables (var . vars)
             (begin expr . rest))))))
 
   (define-syntax-rule (post route (var . vars) expr . rest)
