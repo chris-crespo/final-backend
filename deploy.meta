@@ -1,2 +1,2 @@
 ((description "Backend for final project")
- (depends awful awful-postgresql medea))
+ (depends awful awful-postgresql medea crypt))
