@@ -3,7 +3,7 @@
     (import (except chicken get))
     (use awful awful-postgresql
          postgresql sql-null
-         medea)
+         medea crypt)
     (use methods))
   (chicken-5
     (import (chicken base) 
@@ -11,7 +11,7 @@
             (chicken process-context))
     (import awful awful-postgresql 
             postgresql sql-null 
-            medea)
+            medea crypt)
     (import methods)))
 
 (enable-db)
@@ -41,18 +41,17 @@
 (define (name-cols names row)
   (map cons names row))
 
-(define get-user
-  (lambda (username email)
-    (query connection 'get_user username email)))
+(define (get-user username email)
+  (query connection 'get_user username email))
 
 (define (password-matches? user password)
   ;; User must be an alist obtained by calling row-alist
-  (string=? (cdr (assoc 'password user)) password))
+  (let ((hash (cdr (assoc 'password user))))
+    (string=? hash (crypt password hash))))
 
-(define post-user
-  (lambda user-data
-    ;; TODO: Hash password before storing in db
-    (apply query connection 'post_user user-data)))
+(define (post-user username email password first-name last-name phone)
+  (query connection 'post_user
+         username email (crypt password) first-name last-name phone))
 
 (define (available? colname)
   (let ((statement-name 
