@@ -20,7 +20,7 @@
 (define connection (connect (db-credentials)))
 (on-exit (lambda () (disconnect connection)))
 
-(query connection "prepare get_user as select email from app_user 
+(query connection "prepare get_user as select * from app_user 
                    where username = $1 or email = $2")
 (query connection "prepare post_user as 
                    insert into app_user values ($1, $2, $3, $4, $5, $6)")
@@ -47,8 +47,7 @@
 
 (define (password-matches? user password)
   ;; User must be an alist obtained by calling row-alist
-  (print user)
-  (string=? (cdr (assoc 'password user )) password))
+  (string=? (cdr (assoc 'password user)) password))
 
 (define post-user
   (lambda user-data
@@ -78,7 +77,8 @@
   (let* ((user (get-user username email))
          (user-exists? (> (row-count user) 0)))
   `((user . ,user-exists?)
-    (password . ,(and user-exists? (password-matches? (row-alist user) password))))))
+    (password . ,(and user-exists? 
+                      (password-matches? (row-alist user) password))))))
 
 (post "api/register" (username email password first-name last-name phone-number)
   ;; TODO: Success should depend on user being stored successfully
