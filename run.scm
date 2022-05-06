@@ -72,6 +72,9 @@
 (get "api/verify" (username email password)
   `((verified . ,(exists? username email))))
 
+(get "api/user" (user)
+  `((user . ,(row-alist (get-user user user)))))
+
 (get "api/auth" (username email password)
   (let* ((user (get-user username email))
          (user-exists? (> (row-count user) 0)))
