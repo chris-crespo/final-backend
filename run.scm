@@ -73,14 +73,15 @@
   `((verified . ,(exists? username email))))
 
 (get "api/user" (user/email)
+  (define (full-name user)
+    (let ((first-name (cdr (assoc 'first-name user)))
+          (last-name  (cdr (assoc 'last-name  user))))
+      (string-append first-name " " last-name)))
   (let ((user (row-alist (get-user user/email user/email))))
     `((user .
-      `((assoc 'username user)
-        (assoc 'email    user)
-        (name . 
-        (assoc 'first-name user)
-        (assoc 'last-name  user)
-  `((user . ,(row-alist (get-user user/email user/email)))))
+      `(,(assoc 'username user)
+        ,(assoc 'email    user)
+        (name . ,(full-name user)))))))
 
 (get "api/auth" (username email password)
   (let* ((user (get-user username email))
