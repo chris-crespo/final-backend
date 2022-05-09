@@ -41,6 +41,11 @@
 (define (name-cols names row)
   (map cons names row))
 
+(define (full-name user)
+  (let ((first-name (cdr (assoc 'first_name user)))
+        (last-name  (cdr (assoc 'last_name  user))))
+    (string-append first-name " " last-name)))
+
 (define (get-user username email)
   (query connection 'get_user username email))
 
@@ -73,22 +78,18 @@
   `((verified . ,(exists? username email))))
 
 (get "api/user" (username email)
-  (define (full-name user)
-    (let ((first-name (cdr (assoc 'first-name user)))
-          (last-name  (cdr (assoc 'last-name  user))))
-      (string-append first-name " " last-name)))
   (let ((user (row-alist (get-user username email))))
-    `((user .
-      `(,(assoc 'username user)
-        ,(assoc 'email    user)
-        (name . ,(full-name user)))))))
+    `(,(assoc 'username user)
+      ,(assoc 'email user)
+      (name . ,(full-name user)))))
 
 (get "api/auth" (username email password)
   (let* ((user (get-user username email))
          (user-exists? (> (row-count user) 0)))
   `((user . ,user-exists?)
-    (password . ,(and user-exists? 
-                      (password-matches? (row-alist user) password))))))
+    (password . ,(and user-exists? (password-matches? 
+                                     (row-alist user) 
+                                     password))))))
 
 (post "api/register" (username email password first-name last-name phone-number)
   ;; TODO: Success should depend on user being stored successfully
